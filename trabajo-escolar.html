@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tequila 1800 | Proyecto Institucional por Guiomara Reyes</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ARQUITECTURA CORE Y VARIABLES DE COLOR */
+    :root { --navy: #002D62; --gold: #C5A059; --glass: rgba(255, 255, 255, 0.98); }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: 'Montserrat', sans-serif; overflow-x: hidden; background-color: #FFFFFF; color: #000; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-mont { font-family: 'Montserrat', sans-serif; }
+    
+    /* ESCENOGRAFÍA INSTITUCIONAL */
+    .hero-bg {
+      background: linear-gradient(180deg, rgba(0,45,98,0.85) 0%, rgba(0,0,0,0.7) 100%), 
+                  linear-gradient(180deg, #2d1b4e 0%, #6b3a7d 16%, #c25a3c 22%, #e8943a 28%, #f0b84a 33%, #8fb84a 40%, #2a5e2e 55%, #16381c 80%, #0f2a16 100%);
+      background-size: cover; background-position: center;
+    }
+    .barrel-pattern { background-image: repeating-linear-gradient(90deg, rgba(197,160,89,0.08) 0px, rgba(197,160,89,0.08) 2px, transparent 2px, transparent 40px), repeating-linear-gradient(0deg, rgba(197,160,89,0.04) 0px, rgba(197,160,89,0.04) 1px, transparent 1px, transparent 20px); }
+    
+    /* MICRO-INTERACCIONES PREMIUM - HOVER ELEVATION */
+    .bottle-card { transition: all 0.5s cubic-bezier(0.22,1,0.36,1); border-radius: 8px; border: 1px solid #f0f0f0; background: #FFFFFF; }
+    .bottle-card:hover { transform: translateY(-12px); box-shadow: 0 35px 70px rgba(0,45,98,0.12); border-color: #C5A059; }
+    
+    /* MOTOR DE REVELACIÓN (A PRUEBA DE FALLOS) */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.2s; } .delay-2 { transition-delay: 0.4s; }
+    
+    /* BOTONES CORPORATIVOS (SHIMMER EFFECT) */
+    .btn-gold {
+      background: #C5A059; color: #002D62; position: relative; overflow: hidden;
+      transition: all 0.4s ease; display: inline-flex; align-items: center; justify-content: center;
+      gap: 12px; border-radius: 4px; font-weight: 800; border: 2px solid #C5A059; letter-spacing: 2px; cursor: pointer;
+    }
+    .btn-gold::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%); transform: translateX(-100%); transition: transform 0.6s ease; }
+    .btn-gold:hover::after { transform: translateX(100%); }
+    .btn-gold:hover { box-shadow: 0 10px 30px rgba(197,160,89,0.5); transform: translateY(-2px); }
+    
+    .btn-navy {
+      background: #002D62; color: #FFFFFF; transition: all 0.4s ease; display: inline-flex;
+      align-items: center; justify-content: center; gap: 12px; border-radius: 4px; font-weight: 800; border: 2px solid #002D62; letter-spacing: 2px; cursor: pointer;
+    }
+    .btn-navy:hover { background: #001a3a; box-shadow: 0 10px 30px rgba(0,45,98,0.6); transform: translateY(-2px); border-color: #001a3a; }
+    
+    /* DETALLES ARQUITECTÓNICOS */
+    .gold-line { width: 80px; height: 4px; background: #C5A059; border-radius: 2px; }
+    .barrel-svg { filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6)); }
+
+    /* NAVEGACIÓNglassmorphism */
+    .nav-glass { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(197,160,89,0.2); transition: all 0.4s ease; }
+    .nav-scrolled { box-shadow: 0 10px 40px rgba(0, 45, 98, 0.15); padding-top: 0.8rem; padding-bottom: 0.8rem; }
+    
+    /* MOTOR MODAL (CRISTALOMORFISMO INSTITUCIONAL) */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; overflow: auto; background-color: rgba(0,45,98,0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .modal-content { background: #FFFFFF; margin: 8% auto; padding: 50px; border-radius: 8px; max-width: 800px; width: 90%; position: relative; border: 2px solid #C5A059; box-shadow: 0 30px 60px rgba(0,0,0,0.8); animation: modalFadeIn 0.4s ease; }
+    @keyframes modalFadeIn { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    .close-modal { color: #002D62; position: absolute; top: 20px; right: 25px; font-size: 35px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .close-modal:hover { color: #C5A059; }
+  </style>
+</head>
+<body>
+    
+  <div id="modal-historia" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('modal-historia')">&times;</span>
+      <h3 class="font-playfair font-black text-3xl mb-8 text-[#002D62]">La Verdadera Herencia de 1800</h3>
+      <div class="gold-line mb-8"></div>
+      <div class="font-mont text-sm text-[#333] leading-relaxed space-y-4">
+        <p>Tequila 1800 representa el pináculo de la herencia destiladora de México. Su nombre conmemora el año 1800, fecha histórica en la que se documentó el primer añejamiento exitoso de tequila en barricas de madera, marcando un antes y un después en la industria. Este legado de más de dos siglos es el cimiento sobre el cual se construye cada gota de nuestra colección, redefiniendo el estándar de los destilados premium a nivel mundial.</p>
+        <p>El alma de nuestro tequila nace exclusivamente en los fértiles suelos de origen volcánico de la región de Jalisco. Este terruño específico, rico en minerales como hierro y basalto, proporciona las condiciones agronómicas perfectas. La altitud, el clima semiárido y la composición química de la tierra nutren a nuestras plantas, otorgándoles un perfil de sabor complejo, terroso y dulzón.</p>
+      </div>
+    </div>
+  </div>
+
+  <nav id="main-nav" class="nav-glass fixed top-0 left-0 w-full z-50 py-5">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <span class="font-playfair text-2xl md:text-3xl font-black tracking-widest text-[#002D62]">TEQUILA <span style="color:#C5A059;">1800</span></span>
+      <div class="hidden md:flex gap-10 font-mont text-xs font-bold tracking-[0.2em] text-[#002D62]">
+        <a href="#hero" class="hover:text-[#C5A059] transition-colors">INICIO</a> 
+        <a href="#historia" class="hover:text-[#C5A059] transition-colors">HERENCIA</a> 
+        <a href="#clasico" class="hover:text-[#C5A059] transition-colors">CLÁSICO</a> 
+        <a href="#lujo" class="hover:text-[#C5A059] transition-colors">LUJO</a> 
+        <a href="#contacto" class="hover:text-[#C5A059] transition-colors">CONTACTO</a>
+      </div>
+    </div>
+  </nav>
+
+  <section id="hero" class="hero-bg w-full relative flex items-center justify-center pt-24" style="min-height:100vh;">
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+      
+      <div class="gold-line mx-auto mb-10 reveal"></div>
+      
+      <h1 class="font-playfair font-black text-white leading-tight mb-4 reveal delay-1" style="font-size: clamp(3rem, 7vw, 6.5rem); text-shadow: 0 10px 30px rgba(0,0,0,0.5);">Tequila 1800:<br>El Primer Tequila Premium</h1>
+      
+      <p class="font-mont text-lg md:text-xl text-gray-200 tracking-wide reveal delay-2 mb-14" style="font-weight: 500;">
+        <span class="font-mont italic" style="color: #FFFFFF; font-weight: 700;">Proyecto Escolar Guiomara Reyes</span><br>
+        Doscientos años de maestría tequilera forjados en el corazón de Jalisco
+      </p>
+      
+      <a href="#historia" class="btn-gold px-12 py-5 text-sm reveal delay-2 shadow-2xl">DESCUBRIR LA HERENCIA</a>
+    </div>
+  </section>
+<section id="historia" class="w-full barrel-pattern dark-section" style="min-height:100vh; background-color:#002D62;">
+    <div class="max-w-7xl mx-auto px-6 py-24 md:py-32 flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+      <div class="flex-1 order-2 lg:order-1 reveal">
+        <div class="gold-line mb-8"></div>
+        <h2 class="font-playfair font-black text-white mb-8" style="font-size: clamp(2.5rem, 5vw, 4.5rem);">Doscientos Años de Perfección Real</h2>
+        <p class="font-mont font-light text-white leading-relaxed text-lg md:text-xl mb-12" style="opacity:0.9; line-height:2;">
+          Nacido en los ricos suelos volcánicos de Jalisco, Tequila 1800 toma su nombre del año en que se logró el primer añejamiento exitoso en barricas de roble francés y americano. Este legado inquebrantable respeta los métodos artesanales originales y utiliza exclusivamente Agave Azul Weber al 100%.
+        </p>
+        <button onclick="openModal('modal-historia')" class="btn-gold px-10 py-4 text-xs">QUIERO SABER MÁS SOBRE NUESTRA HISTORIA</button>
+      </div>
+      <div class="flex-1 flex justify-center order-1 lg:order-2 reveal delay-1">
+        <svg class="barrel-svg" viewBox="0 0 280 360" width="300" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="140" cy="40" rx="100" ry="30" fill="#8B6914" stroke="#C5A059" stroke-width="2" />
+          <path d="M40,40 Q30,180 40,320" stroke="#C5A059" stroke-width="2" fill="none" />
+          <path d="M240,40 Q250,180 240,320" stroke="#C5A059" stroke-width="2" fill="none" />
+          <rect x="40" y="40" width="200" height="280" rx="0" fill="url(#barrelGrad)" opacity="0.9" />
+          <ellipse cx="140" cy="320" rx="100" ry="30" fill="#6B4F10" stroke="#C5A059" stroke-width="2" />
+          <ellipse cx="140" cy="40" rx="100" ry="30" fill="#A07818" stroke="#C5A059" stroke-width="2" opacity="0.8" />
+          <text x="140" y="190" text-anchor="middle" font-family="'Playfair Display',serif" font-size="38" font-weight="900" fill="#C5A059" opacity="0.95">1800</text>
+          <defs><linearGradient id="barrelGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#5C3D0E" /><stop offset="50%" stop-color="#8B6914" /><stop offset="100%" stop-color="#5C3D0E" /></linearGradient></defs>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="clasico" class="w-full" style="min-height:100vh; background:#FFFFFF;">
+    <div class="max-w-7xl mx-auto px-6 py-24 md:py-32">
+      <div class="text-center mb-20 reveal">
+        <div class="gold-line mx-auto mb-6"></div>
+        <h2 class="font-playfair font-black text-[#002D62]" style="font-size: clamp(2.5rem, 5vw, 4.5rem);">El Portafolio Clásico</h2>
+        <p class="font-mont font-medium text-gray-600 mt-4 tracking-wide">LAS CARACTERÍSTICAS REALES DE CADA EXPRESIÓN</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14">
+        
+        <div class="bottle-card p-10 text-center flex flex-col items-center reveal shadow-xl">
+          <svg viewBox="0 0 100 280" width="110" class="mb-10" xmlns="http://www.w3.org/2000/svg">
+            <rect x="38" y="0" width="24" height="30" rx="4" fill="#e8e8e8" stroke="#ccc" stroke-width="1" />
+            <path d="M42,48 L30,90 L30,240 Q30,260 50,260 Q70,260 70,240 L70,90 L58,48 Z" fill="#ffffff" stroke="#C5A059" stroke-width="1.5" />
+            <rect x="32" y="130" width="36" height="60" rx="2" fill="white" stroke="#C5A059" stroke-width="1.5" />
+            <text x="50" y="155" text-anchor="middle" font-family="'Playfair Display'" font-size="8" font-weight="900" fill="#002D62">1800</text>
+            <text x="50" y="170" text-anchor="middle" font-family="'Montserrat'" font-size="5" font-weight="700" fill="#002D62">BLANCO</text>
+          </svg>
+          <h3 class="font-playfair font-black text-3xl mb-4 text-[#002D62]">1800 Blanco</h3>
+          <p class="font-mont text-sm text-[#555] mb-8 leading-relaxed">Pureza absoluta. Doble destilación con notas herbáceas y cítricos frescos.</p>
+          <button onclick="openModal('modal-blanco')" class="btn-gold px-8 py-3 text-xs mt-auto">VER CARACTERÍSTICAS REALES</button>
+        </div>
+
+        <div class="bottle-card p-10 text-center flex flex-col items-center reveal delay-1 shadow-lg">
+          <svg viewBox="0 0 100 280" width="110" class="mb-10" xmlns="http://www.w3.org/2000/svg">
+            <rect x="38" y="0" width="24" height="30" rx="4" fill="#d4a050" stroke="#b8893a" stroke-width="1" />
+            <path d="M42,48 L30,90 L30,240 Q30,260 50,260 Q70,260 70,240 L70,90 L58,48 Z" fill="#e8c87a" stroke="#C5A059" stroke-width="1.5" />
+            <rect x="32" y="130" width="36" height="60" rx="2" fill="white" stroke="#C5A059" stroke-width="1.5" />
+            <text x="50" y="155" text-anchor="middle" font-family="'Playfair Display'" font-size="8" font-weight="900" fill="#002D62">1800</text>
+            <text x="50" y="170" text-anchor="middle" font-family="'Montserrat'" font-size="4.5" font-weight="700" fill="#002D62">REPOSADO</text>
+          </svg>
+          <h3 class="font-playfair font-black text-3xl mb-4 text-[#002D62]">1800 Reposado</h3>
+          <p class="font-mont text-sm text-[#555] mb-8 leading-relaxed">Equilibrio perfecto. Añejado 6 meses en roble con notas de caramelo y vainilla.</p>
+          <button onclick="openModal('modal-repo')" class="btn-gold px-8 py-3 text-xs mt-auto">VER CARACTERÍSTICAS REALES</button>
+        </div>
+
+        <div class="bottle-card p-10 text-center flex flex-col items-center reveal delay-2 shadow-lg">
+          <svg viewBox="0 0 100 280" width="110" class="mb-10" xmlns="http://www.w3.org/2000/svg">
+            <rect x="38" y="0" width="24" height="30" rx="4" fill="#8B5E14" stroke="#6B4F10" stroke-width="1" />
+            <path d="M42,48 L30,90 L30,240 Q30,260 50,260 Q70,260 70,240 L70,90 L58,48 Z" fill="#9B7420" stroke="#C5A059" stroke-width="1.5" />
+            <rect x="32" y="130" width="36" height="60" rx="2" fill="white" stroke="#C5A059" stroke-width="1.5" />
+            <text x="50" y="155" text-anchor="middle" font-family="'Playfair Display'" font-size="8" font-weight="900" fill="#002D62">1800</text>
+            <text x="50" y="170" text-anchor="middle" font-family="'Montserrat'" font-size="5" font-weight="700" fill="#002D62">AÑEJO</text>
+          </svg>
+          <h3 class="font-playfair font-black text-3xl mb-4 text-[#002D62]">1800 Añejo</h3>
+          <p class="font-mont text-sm text-[#555] mb-8 leading-relaxed">Complejidad profunda. Añejado 14 meses en roble francés con notas de chocolate y canela.</p>
+          <button onclick="openModal('modal-anejo')" class="btn-gold px-8 py-3 text-xs mt-auto">VER CARACTERÍSTICAS REALES</button>
+        </div>
+      </div>
+    </div>
+  </section>
+<div id="modal-blanco" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('modal-blanco')">&times;</span><h3 class="font-playfair font-black text-3xl mb-6 text-[#002D62]">Características Reales: 1800 Blanco</h3><div class="font-mont text-sm text-[#333] leading-relaxed space-y-4"><p>La expresión más pura del agave. Líquido cristalino que no se somete a añejamiento en madera.</p><p><strong>Notas Reales:</strong> En nariz presenta aromas florales y frutales, con toques de pimienta blanca y cítricos. En el paladar es extraordinariamente suave y vibrante.</p></div></div></div>
+  <div id="modal-repo" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('modal-repo')">&times;</span><h3 class="font-playfair font-black text-3xl mb-6 text-[#002D62]">Características Reales: 1800 Reposado</h3><div class="font-mont text-sm text-[#333] leading-relaxed space-y-4"><p>El equilibrio perfecto. Descansa en barricas de roble americano y francés durante un mínimo de seis meses.</p><p><strong>Notas Reales:</strong> Color ámbar claro. Perfil aromático donde predominan la mantequilla, caramelo, especias suaves y un sutil toque de humo. Un trago redondo.</p></div></div></div>
+  <div id="modal-anejo" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('modal-anejo')">&times;</span><h3 class="font-playfair font-black text-3xl mb-6 text-[#002D62]">Características Reales: 1800 Añejo</h3><div class="font-mont text-sm text-[#333] leading-relaxed space-y-4"><p>Diseñado para los paladares más exigentes. Añejado durante un mínimo de catorce meses en barricas de roble francés.</p><p><strong>Notas Reales:</strong> Color cobre profundo y brillante. Capas sofisticadas de vainilla tostada, canela, clavo, chocolate amargo y nuez moscada. Robustez absoluta.</p></div></div></div>
+  <div id="modal-cristalino" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('modal-cristalino')">&times;</span><h3 class="font-playfair font-black text-3xl mb-6 text-[#002D62]">Características Reales: 1800 Cristalino</h3><div class="font-mont text-sm text-[#333] leading-relaxed space-y-4"><p>La cúspide de la innovación y el lujo. Un Añejo terminado en barricas de vino de Oporto para mayor complejidad.</p><p><strong>Notas Reales:</strong> Se extrae el color y las notas maderables más astringentes mediante filtración con carbón activado, dejando un tequila transparente, pero con toda la profundidad, cuerpo y notas dulces de un añejo maduro.</p>
+    </div></div></div>
+  <div id="modal-milenio" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('modal-milenio')">&times;</span><h3 class="font-playfair font-black text-3xl mb-6 text-[#002D62]">Características Reales: 1800 Milenio</h3><div class="font-mont text-sm text-[#333] leading-relaxed space-y-4"><p>Extra Añejo de producción estrictamente limitada. Reposa durante casi cinco años en barricas de roble americano.</p><p><strong>Notas Reales:</strong> Recibe un acabado final en barricas que previamente contuvieron Cognac francés. Notas ricas que evocan higos secos, miel de abeja, vainilla profunda y un retrogusto aterciopelado.</p></div></div></div>
+
+  <section id="lujo" class="w-full dark-section barrel-pattern py-32" style="background-color:#002D62;">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-20 reveal">
+        <div class="gold-line mx-auto mb-6"></div>
+        <h2 class="font-playfair font-black text-white" style="font-size: clamp(2.5rem, 5vw, 4.5rem);">Nuestra Colección de Lujo Real</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+        
+        <div class="bottle-card p-12 text-center reveal shadow-2xl flex flex-col items-center" style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.3);">
+          <svg viewBox="0 0 100 300" width="120" class="mb-10 mx-auto" xmlns="http://www.w3.org/2000/svg">
+            <rect x="38" y="0" width="24" height="35" rx="5" fill="#d0d0d0" stroke="#C5A059" stroke-width="1.5" />
+            <path d="M43,55 L28,100 L28,250 Q28,272 50,272 Q72,272 72,250 L72,100 L57,55 Z" fill="#ffffff" stroke="#C5A059" stroke-width="1.5" />
+            <rect x="32" y="140" width="36" height="65" rx="2" fill="rgba(0,0,0,0.8)" stroke="#C5A059" stroke-width="1.5" />
+            <text x="50" y="168" text-anchor="middle" font-family="'Playfair Display'" font-size="8" font-weight="900" fill="#fff">1800</text>
+            <text x="50" y="183" text-anchor="middle" font-family="'Montserrat'" font-size="4" font-weight="700" fill="#fff" letter-spacing="1">CRISTALINO</text>
+          </svg>
+          <h3 class="font-playfair font-black text-3xl mb-5 text-white">1800 Cristalino</h3>
+          <p class="font-mont text-sm text-gray-300 mb-10 leading-relaxed">Extraordinario Añejo filtrado. Transparente, pero con toda la profundidad, cuerpo y notas dulces de un añejo maduro.</p>
+          <button onclick="openModal('modal-cristalino')" class="btn-gold px-10 py-4 text-xs mt-auto">VER DETALLES CORPORATIVOS</button>
+        </div>
+
+        <div class="bottle-card p-12 text-center reveal delay-1 shadow-2xl flex flex-col items-center" style="background:rgba(255,255,255,0.03); border:1px solid rgba(197,160,89,0.3);">
+          <svg viewBox="0 0 100 300" width="120" class="mb-10 mx-auto" xmlns="http://www.w3.org/2000/svg">
+            <rect x="36" y="0" width="28" height="38" rx="6" fill="#C5A059" stroke="#a08040" stroke-width="1.5" />
+            <path d="M42,58 L26,105 L26,252 Q26,275 50,275 Q74,275 74,252 L74,105 L58,58 Z" fill="#3d2208" stroke="#C5A059" stroke-width="2" />
+            <rect x="30" y="142" width="40" height="68" rx="2" fill="rgba(197,160,89,0.15)" stroke="#C5A059" stroke-width="2" />
+            <text x="50" y="170" text-anchor="middle" font-family="'Playfair Display'" font-size="8" font-weight="900" fill="#C5A059">1800</text>
+            <text x="50" y="186" text-anchor="middle" font-family="'Montserrat'" font-size="4" font-weight="700" fill="#C5A059" letter-spacing="1">MILENIO</text>
+          </svg>
+          <h3 class="font-playfair font-black text-3xl mb-5 text-white">1800 Milenio</h3>
+          <p class="font-mont text-sm text-gray-300 mb-10 leading-relaxed">Extra Añejo limitado. Reposa casi 5 años en roble americano y termina en barricas de Cognac francés.</p>
+          <button onclick="openModal('modal-milenio')" class="btn-gold px-10 py-4 text-xs mt-auto">VER DETALLES CORPORATIVOS</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="w-full py-24 md:py-32" style="background:#C5A059;">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <div class="mx-auto mb-8 reveal" style="width:80px; height:4px; background:#002D62; border-radius:2px;"></div>
+      <h2 class="font-playfair font-black text-[#002D62] mb-10 reveal" style="font-size: clamp(2.5rem, 5vw, 4rem);">Adquirir la Excelencia</h2>
+      <p class="font-mont font-bold text-lg md:text-2xl mb-14 tracking-wide reveal delay-1" style="color:#002D62;">
+        Encuentra Tequila 1800 en las mejores cavas de México. La icónica botella trapezoidal te espera.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 reveal delay-2">
+        <a href="https://wa.me/523331978052?text=Hola,%20me%20interesa%20recibir%20informaci%C3%B3n%20sobre%20el%20Tequila%201800" target="_blank" rel="noopener noreferrer" class="btn-navy px-12 py-5 text-sm w-full sm:w-auto shadow-2xl">
+          <i data-lucide="message-circle" class="w-5 h-5"></i>
+          QUIERO VER MÁS INFORMACIÓN
+        </a>
+        <a href="#" class="btn-navy px-12 py-5 text-sm w-full sm:w-auto shadow-2xl" style="background:transparent; border-color:#002D62; color:#002D62;">
+          <i data-lucide="instagram" class="w-5 h-5"></i>
+          SÍGUENOS EN INSTAGRAM
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="w-full bg-[#001a3a] border-t-2 border-[#C5A059] py-16 text-center">
+    <div class="max-w-5xl mx-auto px-6">
+      <h2 class="font-playfair text-3xl md:text-4xl font-black tracking-widest text-[#FFFFFF] mb-6">TEQUILA <span style="color:#C5A059;">1800</span></h2>
+      <div class="gold-line mx-auto mb-10"></div>
+      
+      <div class="font-mont text-sm text-gray-300 leading-relaxed mb-8 space-y-3">
+        <p class="font-mont font-bold text-lg md:text-xl" style="color: #FFFFFF; font-weight: 800;">
+          Diseño Web Corporativo: <br>
+          <span class="text-[#C5A059] text-xl md:text-2xl mt-2 inline-block font-black" style="letter-spacing: 2px;">Guiomara Reyes</span>
+        </p>
+        <p class="font-mont font-medium text-xs pt-4" style="color: rgba(255, 255, 255, 0.6);">&copy; 2026 Proyecto Académico Institucional. Todos los derechos reservados. <br>Todas las características y descripciones son reales de la marca Tequila 1800.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 1. INICIALIZACIÓN DE ICONOS Y SCROLL NATIVO
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+
+      // Navegación Dinámica con Scroll de Ventana Nítido
+      const nav = document.getElementById('main-nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 60) {
+          nav.classList.add('nav-scrolled');
+        } else {
+          nav.classList.remove('nav-scrolled');
+        }
+      });
+
+      // Intersection Observer para Rendimiento en Gama Baja
+      const revealElements = document.querySelectorAll('.reveal');
+      const observerOptions = { root: null, rootMargin: '0px 0px -50px 0px', threshold: 0.15 };
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target); // Dejar de observar para ahorrar RAM
+          }
+        });
+      }, observerOptions);
+
+      // Activación del Observador
+      if ('IntersectionObserver' in window) {
+        revealElements.forEach(el => revealObserver.observe(el));
+      } else {
+        // Fallback para navegadores obsoletos
+        revealElements.forEach(el => el.classList.add('visible'));
+      }
+    });
+
+    // 2. MOTOR DE VENTANAS MODALES (ABRIR/CERRAR)
+    function openModal(modalId) { 
+      document.getElementById(modalId).style.display = "block"; 
+      document.body.style.overflow = "hidden"; // Evita el scroll de fondo
+    }
+    function closeModal(modalId) { 
+      document.getElementById(modalId).style.display = "none"; 
+      document.body.style.overflow = "auto"; // Devuelve el scroll normal
+    }
+    // Cerrar modal al hacer clic en el fondo oscuro
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) { 
+        event.target.style.display = "none"; 
+        document.body.style.overflow = "auto";
+      }
+    }
+  </script>
+</body>
+</html>
